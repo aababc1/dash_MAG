@@ -784,8 +784,20 @@ def save_to_local(n_clicks, filename, table_data):
     return dcc.send_data_frame(matched_df.to_csv, f"{filename}.csv", index=False)
 
 
-# 서버 저장 콜백
 
+
+@app.callback(
+    Output("save-status", "children"),
+    Input("save-server-button", "n_clicks"),
+    prevent_initial_call=True,
+)
+def save_to_server(n_clicks):
+    if n_clicks == 0:
+        raise PreventUpdate
+    
+    return "You can save it into your server. (Actual saving is not implemented here. Full path information appears.when you save file.)"
+# callback for save into server 
+"""
 @app.callback(
     Output("save-status", "children"),
     Input("save-server-button", "n_clicks"),
@@ -809,7 +821,7 @@ def save_to_server(n_clicks, filename, table_data):
     server_path = os.path.join(os.getcwd(), f"{filename}.csv")
     matched_df.to_csv(server_path, index=False)
     return f"File saved to server at {server_path}"
-
+"""
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='metaFun: genome selector for COMPARATIVE_ANNOTATION')
